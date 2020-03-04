@@ -15,6 +15,7 @@ matplotlib.rc('xtick', labelsize=14)
 matplotlib.rc('ytick', labelsize=14)
 matplotlib.rc('axes', titlesize=20)
 matplotlib.rc('axes', labelsize=20)
+
 matplotlib.rcParams['axes.formatter.useoffset'] = False
 
 
@@ -67,6 +68,7 @@ def plot_spectrum(data: np.ndarray, cakes_to_plot: List[int], merge_cakes: bool,
     plt.minorticks_on()
     plt.xlabel(r'Two Theta ($^\circ$)')
     plt.ylabel('Intensity')
+    plt.yscale('log')
     if x_range:
         plt.xlim(x_range[0], x_range[1])
     plt.tight_layout()
@@ -82,6 +84,7 @@ def plot_peak_params(peak_params: List["PeakParams"], x_range: Tuple[float, floa
         plt.axvline(bounds_min, ls="-", lw=1, color="grey")
         plt.axvline(bounds_max, ls="-", lw=1, color="grey")
         plt.axvspan(bounds_min, bounds_max, alpha=0.2, color='grey', hatch="/")
+        plt.yscale('log')
         for param in params.maxima_bounds:
             min_x = param[0]
             max_x = param[1]
@@ -110,6 +113,7 @@ def plot_peak_fit(data: np.ndarray, cake_numbers: List[int], fit_result: lmfit.m
     plt.tight_layout()
     plt.xlabel(r'Two Theta ($^\circ$)')
     plt.ylabel('Intensity')
+    plt.yscale('log')
     plt.legend()
     if timestep:
         fit_name = f'Peak "{fit_name}" at t = {timestep}'
@@ -147,3 +151,8 @@ def plot_parameter(data: np.ndarray, fit_parameter: str, peak_name: str, show_po
     plt.ylabel(fit_parameter.replace("_", " ").title())
     plt.title("Peak {}".format(peak_name))
     plt.show()
+
+    
+def steps_slide_bar():
+    step_slider = widgets.IntSlider(value=0, min = 0, max = 57, step = 1)
+    return step_slider
